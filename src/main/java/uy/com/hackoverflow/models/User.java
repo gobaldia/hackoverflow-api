@@ -22,6 +22,7 @@ public class User {
     private Boolean instructor;
     private Boolean student;
     private String dni;
+    private Double score = 0D;
 
     // Relationships
     @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
@@ -42,6 +43,7 @@ public class User {
     private List<Workshop> requestedWorkshops; /* Cursos que solicito */
 
     public User() {
+        this.score = 0D;
     }
 
     public String getNickname() {
@@ -128,15 +130,27 @@ public class User {
         return id;
     }
 
+
+    public Double getScore() {
+        return score;
+    }
+
+    public void setScore(Double score) {
+        this.score = score;
+    }
+
     @Override
     public String toString() {
-        return "UserService{" +
-                "nickname='" + nickname + '\'' +
+        return "User{" +
+                "id=" + id +
+                ", nickname='" + nickname + '\'' +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", pwd='" + pwd + '\'' +
                 ", instructor=" + instructor +
                 ", student=" + student +
+                ", dni='" + dni + '\'' +
+                ", score=" + score +
                 '}';
     }
 }

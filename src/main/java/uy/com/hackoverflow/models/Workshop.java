@@ -14,6 +14,7 @@ public class Workshop {
     private Long id;
 
     private String name;
+    @Column( length = 10000 )
     private String description;
     private String date;
     private Boolean free;
@@ -25,15 +26,15 @@ public class Workshop {
     @ElementCollection
     private List<String> tags;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "placeId")
     private Place place;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "teacherId")
     private User teacher;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "requesterId")
     private User requester;
 
