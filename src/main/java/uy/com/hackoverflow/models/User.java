@@ -1,11 +1,19 @@
 package uy.com.hackoverflow.models;
 
+import javax.persistence.*;
 import java.util.List;
 
 /**
  * Created by emiliano on  04/11/17.
  */
+@Entity
+@Table(name = "\"user\"")
 public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     // Basic Info
     private String nickname;
     private String username;
@@ -13,9 +21,24 @@ public class User {
     private String pwd;
     private Boolean instructor;
     private Boolean student;
+    private String dni;
+
     // Relationships
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
     private List<Workshop> dictatedWorkshops; /* Cursos que dicto*/
+
+    @ManyToMany(
+            targetEntity = Workshop.class,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
+    )
+    @JoinTable(
+            name = "WORKSHOP_ENROLLED",
+            joinColumns = @JoinColumn(name = "USER_ID"),
+            inverseJoinColumns = @JoinColumn(name = "WORKSHOP_ID", referencedColumnName = "id")
+    )
     private List<Workshop> enrolledWorkshops; /* Cursos a los que me anote */
+
+    @OneToMany(mappedBy = "requester", cascade = CascadeType.ALL)
     private List<Workshop> requestedWorkshops; /* Cursos que solicito */
 
     public User() {
@@ -93,9 +116,21 @@ public class User {
         this.requestedWorkshops = requestedWorkshops;
     }
 
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
     @Override
     public String toString() {
-        return "User{" +
+        return "UserService{" +
                 "nickname='" + nickname + '\'' +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +

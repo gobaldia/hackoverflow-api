@@ -29,6 +29,18 @@ public class Workshop {
     @JoinColumn(name = "placeId")
     private Place place;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "teacherId")
+    private User teacher;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "requesterId")
+    private User requester;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST,
+            CascadeType.MERGE}, mappedBy = "enrolledWorkshops", targetEntity = User.class)
+    private List<User> enrolledUsers;
+
     public Workshop() {
     }
 
@@ -100,9 +112,29 @@ public class Workshop {
         return id;
     }
 
+    public User getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(User teacher) {
+        this.teacher = teacher;
+    }
+
+    public User getRequester() {
+        return requester;
+    }
+
+    public void setRequester(User requester) {
+        this.requester = requester;
+    }
+
+    public List<User> getEnrolledUsers() {
+        return enrolledUsers;
+    }
+
     @Override
     public String toString() {
-        return "Workshop{" +
+        return "WorkshopRepository{" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", date='" + date + '\'' +
