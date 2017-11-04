@@ -119,16 +119,16 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         w.setPrice(0F);
         w.setPlace(p);
         workshopRepository.save(w);
-//
-//
-//        Workshop w2 = new Workshop();
-//        w2.setName("Taller de programación en Java");
-//        w2.setDescription("Este curso está orientado principalmente a personas interesadas en conocer y profundizar sobre el lenguaje de la programación en Java para la creación y manipulación de objetos. Es necesario poseer un conocimiento previo de los conceptos básicos de programación, como el manejo de variables, las instrucciones de asignación, condicionales e iterativas y el concepto de algoritmo y función. De igual forma, el curso cuenta con un espacio de auto-evaluación sobre estos conocimientos previos y le ofrece material de ayuda que le permitirá nivelarse y participar en el curso.");
-//        w2.setDate("2017-15-04T18:06:50-03:00");
-//        w2.setFree(false);
-//        w2.setPrice(200F);
-//        w2.setPlace(p);
-//        workshopRepository.save(w2);
+
+
+        Workshop w2 = new Workshop();
+        w2.setName("Taller de programación en Java");
+        w2.setDescription("Este curso está orientado principalmente a personas interesadas en conocer y profundizar sobre el lenguaje de la programación en Java para la creación y manipulación de objetos. Es necesario poseer un conocimiento previo de los conceptos básicos de programación, como el manejo de variables, las instrucciones de asignación, condicionales e iterativas y el concepto de algoritmo y función. De igual forma, el curso cuenta con un espacio de auto-evaluación sobre estos conocimientos previos y le ofrece material de ayuda que le permitirá nivelarse y participar en el curso.");
+        w2.setDate("2017-15-04T18:06:50-03:00");
+        w2.setFree(false);
+        w2.setPrice(200F);
+        w2.setPlace(p);
+        workshopRepository.save(w2);
 
     }
 }
