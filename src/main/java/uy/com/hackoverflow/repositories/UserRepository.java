@@ -1,6 +1,8 @@
 package uy.com.hackoverflow.repositories;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import uy.com.hackoverflow.models.User;
 
 /**
@@ -8,4 +10,9 @@ import uy.com.hackoverflow.models.User;
  */
 public interface UserRepository extends CrudRepository<User,Long> {
     User findFirstByNickname(String registration);
+
+    @Query("select u from User u left join fetch u.enrolledWorkshops where u.id = :id")
+    User findUserAndFetchEnrolledWorkshops(@Param("id") Long id);
+
+
 }

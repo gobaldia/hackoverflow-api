@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import uy.com.hackoverflow.dtos.WorkshopToShowDto;
 import uy.com.hackoverflow.models.Error;
 import uy.com.hackoverflow.models.Workshop;
 import uy.com.hackoverflow.repositories.WorkshopRepository;
@@ -49,11 +50,31 @@ public class WorkshopServiceController implements WorkshopService {
             return new ResponseEntity<Error>(new Error(404, "Workshop no encontrado"), HttpStatus.NOT_FOUND);
         }
 
+//        Workshop workshop = workshopRepository.findWorkshopEnrolledUsers(workshopId);
         Workshop workshop = workshopRepository.findFirstById(workshopId);
         if(workshop == null){
             return new ResponseEntity<Error>(new Error(404, "Workshop no encontrado"), HttpStatus.NOT_FOUND);
         }
 
+        WorkshopToShowDto result = WorkshopToShowDto.fromWorkshop(workshop);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/workshops/{workshopId}/old",
+            produces = {"application/json"},
+            method = RequestMethod.GET)
+    public ResponseEntity<?> findWorkshopsById2(@PathVariable("workshopId") Long workshopId) {
+        logger.info("New Request ==>" + workshopId);
+
+        if(workshopId == null){
+            return new ResponseEntity<Error>(new Error(404, "Workshop no encontrado"), HttpStatus.NOT_FOUND);
+        }
+
+        Workshop workshop = workshopRepository.findFirstById(workshopId);
+
+        if(workshop == null){
+            return new ResponseEntity<Error>(new Error(404, "Workshop no encontrado"), HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(workshop, HttpStatus.OK);
     }
 }

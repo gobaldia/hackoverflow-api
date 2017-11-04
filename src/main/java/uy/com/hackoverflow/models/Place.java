@@ -1,5 +1,7 @@
 package uy.com.hackoverflow.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +22,12 @@ public class Place {
     private int capacity;
     private Float price;
 
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "locationId")
     private Location location;
 
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL)
     private List<Workshop> workshops = new ArrayList<>();
 

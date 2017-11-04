@@ -1,6 +1,9 @@
 package uy.com.hackoverflow.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,26 +24,29 @@ public class Workshop {
     private Float price;
 
     @ElementCollection
-    private List<String> images;
+    private List<Image> images;
 
     @ElementCollection
-    private List<String> tags;
+    private List<Tag> tags;
 
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "placeId")
     private Place place;
 
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "teacherId")
     private User teacher;
 
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "requesterId")
     private User requester;
 
     @ManyToMany(cascade = {CascadeType.PERSIST,
             CascadeType.MERGE}, mappedBy = "enrolledWorkshops", targetEntity = User.class)
-    private List<User> enrolledUsers;
+    private List<User> enrolledUsers = new ArrayList<>();
 
     public Workshop() {
     }
@@ -85,19 +91,19 @@ public class Workshop {
         this.price = price;
     }
 
-    public List<String> getImages() {
+    public List<Image> getImages() {
         return images;
     }
 
-    public void setImages(List<String> images) {
+    public void setImages(List<Image> images) {
         this.images = images;
     }
 
-    public List<String> getTags() {
+    public List<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(List<String> tags) {
+    public void setTags(List<Tag> tags) {
         this.tags = tags;
     }
 
@@ -131,6 +137,10 @@ public class Workshop {
 
     public List<User> getEnrolledUsers() {
         return enrolledUsers;
+    }
+
+    public void enrollStudent(User u){
+        this.enrolledUsers.add(u);
     }
 
     @Override

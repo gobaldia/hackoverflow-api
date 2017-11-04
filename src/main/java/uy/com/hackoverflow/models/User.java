@@ -1,6 +1,9 @@
 package uy.com.hackoverflow.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,8 +28,9 @@ public class User {
     private Double score = 0D;
 
     // Relationships
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL)
-    private List<Workshop> dictatedWorkshops; /* Cursos que dicto*/
+    private List<Workshop> dictatedWorkshops = new ArrayList<>(); /* Cursos que dicto*/
 
     @ManyToMany(
             targetEntity = Workshop.class,
@@ -37,10 +41,11 @@ public class User {
             joinColumns = @JoinColumn(name = "USER_ID"),
             inverseJoinColumns = @JoinColumn(name = "WORKSHOP_ID", referencedColumnName = "id")
     )
-    private List<Workshop> enrolledWorkshops; /* Cursos a los que me anote */
+    private List<Workshop> enrolledWorkshops = new ArrayList<>(); /* Cursos a los que me anote */
 
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @OneToMany(mappedBy = "requester", cascade = CascadeType.ALL)
-    private List<Workshop> requestedWorkshops; /* Cursos que solicito */
+    private List<Workshop> requestedWorkshops = new ArrayList<>(); /* Cursos que solicito */
 
     public User() {
         this.score = 0D;
@@ -137,6 +142,10 @@ public class User {
 
     public void setScore(Double score) {
         this.score = score;
+    }
+
+    public void enrollInWorkshop(Workshop w){
+        this.enrolledWorkshops.add(w);
     }
 
     @Override

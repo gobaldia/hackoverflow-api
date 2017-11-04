@@ -4,15 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
-import uy.com.hackoverflow.models.Location;
-import uy.com.hackoverflow.models.Place;
-import uy.com.hackoverflow.models.User;
-import uy.com.hackoverflow.models.Workshop;
-import uy.com.hackoverflow.repositories.LocationRepository;
-import uy.com.hackoverflow.repositories.PlaceRepository;
-import uy.com.hackoverflow.repositories.UserRepository;
-import uy.com.hackoverflow.repositories.WorkshopRepository;
+import uy.com.hackoverflow.models.*;
+import uy.com.hackoverflow.repositories.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -32,6 +28,12 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
     @Autowired
     private PlaceRepository placeRepository;
+
+    @Autowired
+    private TagRepository tagRepository;
+
+    @Autowired
+    private ImageRepository imageRepository;
 
     private Logger log = Logger.getLogger(String.valueOf(DataLoader.class));
 
@@ -78,7 +80,19 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         log.info("SAVING USER: " + u.getId());
     }
 
-    private void loadWorkshops(){
+    private void loadWorkshops() {
+        // Teachers
+        User teacher = userRepository.findFirstByNickname("hackoverflow");
+        // Tags
+        Tag programacion = new Tag("Programacion");
+        tagRepository.save(programacion);
+        Tag python = new Tag("Python");
+        tagRepository.save(python);
+        Tag tics = new Tag("TICs");
+        tagRepository.save(tics);
+        Tag java = new Tag("Java");
+        tagRepository.save(java);
+
         // Places
         Location l = new Location();
         l.setCity("Montevideo");
@@ -118,8 +132,22 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         w.setFree(true);
         w.setPrice(0F);
         w.setPlace(p);
+        List<Tag> tags = new ArrayList<>();
+        tags.add(programacion);
+        tags.add(tics);
+        tags.add(python);
+        w.setTags(tags);
+        List<Image> images = new ArrayList<>();
+        Image img1 = new Image("https://sinusoid.es/python-avanzado/python-logo.png");
+        imageRepository.save(img1);
+        images.add(img1);
+        Image img2 = new Image("https://cdn-images-1.medium.com/max/2000/1*EL67FBAkuwI8vP132UftEg.jpeg");
+        imageRepository.save(img2);
+        images.add(img2);
+        w.setImages(images);
+        w.setTeacher(teacher);
+        w.setRequester(teacher);
         workshopRepository.save(w);
-
 
         Workshop w2 = new Workshop();
         w2.setName("Taller de programación en Java");
@@ -128,7 +156,27 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         w2.setFree(false);
         w2.setPrice(200F);
         w2.setPlace(p);
+        List<Tag> tags2 = new ArrayList<>();
+        tags2.add(programacion);
+        tags2.add(java);
+        tags2.add(tics);
+        w.setTags(tags2);
+        List<Image> images2 = new ArrayList<>();
+        Image img3 = new Image("https://sinusoid.es/python-avanzado/python-logo.png");
+        imageRepository.save(img3);
+        images2.add(img3);
+        Image img4 = new Image("https://cdn-images-1.medium.com/max/2000/1*EL67FBAkuwI8vP132UftEg.jpeg");
+        imageRepository.save(img4);
+        images2.add(img4);
+        w.setImages(images2);
+        w.setTeacher(teacher);
+        w.setRequester(teacher);
         workshopRepository.save(w2);
 
+        // Usuario registrados a cursos
+        User student = userRepository.findFirstByNickname("estudiante");
+        student = userRepository.findUserAndFetchEnrolledWorkshops(student.getId());
+        student.enrollInWorkshop(w);
+        userRepository.save(student);
     }
 }
