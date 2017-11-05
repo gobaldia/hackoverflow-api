@@ -171,17 +171,17 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         tags2.add(programacion);
         tags2.add(java);
         tags2.add(tics);
-        w.setTags(tags2);
+//        w2.setTags(tags2);
         List<Image> images2 = new ArrayList<>();
         Image img3 = new Image("https://sinusoid.es/python-avanzado/python-logo.png");
-        imageRepository.save(img3);
+//        imageRepository.save(img3);
         images2.add(img3);
         Image img4 = new Image("https://cdn-images-1.medium.com/max/2000/1*EL67FBAkuwI8vP132UftEg.jpeg");
-        imageRepository.save(img4);
+//        imageRepository.save(img4);
         images2.add(img4);
-        w.setImages(images2);
-        w.setTeacher(teacher);
-        w.setRequester(teacher);
+//        w2.setImages(images2);
+        w2.setTeacher(teacher);
+        w2.setRequester(teacher);
         workshopRepository.save(w2);
 
         // Usuario registrados a cursos
