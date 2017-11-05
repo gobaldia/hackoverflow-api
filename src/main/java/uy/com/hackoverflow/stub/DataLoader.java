@@ -78,6 +78,17 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         u3.setStudent(true);
         userRepository.save(u3);
         log.info("SAVING USER: " + u.getId());
+
+        User u4 = new User();
+        u4.setNickname("jairo");
+        u4.setEmail("jairo@gmail.com");
+        u4.setUsername("Jairo Bonnanata");
+        u4.setDni("5123458");
+        u4.setPwd("1");
+        u4.setInstructor(false);
+        u4.setStudent(true);
+        userRepository.save(u4);
+        log.info("SAVING USER: " + u.getId());
     }
 
     private void loadWorkshops() {

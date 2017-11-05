@@ -14,5 +14,6 @@ public interface UserRepository extends CrudRepository<User,Long> {
     @Query("select u from User u left join fetch u.enrolledWorkshops where u.id = :id")
     User findUserAndFetchEnrolledWorkshops(@Param("id") Long id);
 
+    User findFirstById(@Param("id") Long id);
 
 }
