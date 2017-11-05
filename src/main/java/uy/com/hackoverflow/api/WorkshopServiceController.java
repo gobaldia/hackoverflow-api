@@ -40,11 +40,11 @@ public class WorkshopServiceController implements WorkshopService {
             method = RequestMethod.GET)
     public ResponseEntity<?> listAllWorkshops() {
         logger.info("New Request ==> findALlWorkshops");
-        List<Workshop> workshops = new ArrayList<>();
+        List<WorkshopToShowDto> workshops = new ArrayList<>();
         for (Workshop w : workshopRepository.findAll()) {
-            workshops.add(w);
+            workshops.add(WorkshopToShowDto.fromWorkshop(w));
         }
-        return new ResponseEntity<List<Workshop>>(workshops, HttpStatus.OK);
+        return new ResponseEntity<List<WorkshopToShowDto>>(workshops, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/workshops/{workshopId}",

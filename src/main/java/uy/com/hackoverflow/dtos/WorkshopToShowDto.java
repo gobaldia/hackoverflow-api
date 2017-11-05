@@ -1,5 +1,6 @@
 package uy.com.hackoverflow.dtos;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import uy.com.hackoverflow.models.*;
 
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.List;
 /**
  * Created by emiliano on  04/11/17.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class WorkshopToShowDto {
     private Long id;
     private String name;
