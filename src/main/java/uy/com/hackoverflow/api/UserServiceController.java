@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import uy.com.hackoverflow.dtos.UserBasic;
 import uy.com.hackoverflow.dtos.UserLoginInfo;
 import uy.com.hackoverflow.models.User;
 import uy.com.hackoverflow.repositories.UserRepository;
@@ -45,7 +46,7 @@ public class UserServiceController implements UserService {
             return new ResponseEntity<Error>(new Error(1, "Usaurio y/o password invalidos"), HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(UserBasic.fromUser(user), HttpStatus.OK);
 
     }
 }
